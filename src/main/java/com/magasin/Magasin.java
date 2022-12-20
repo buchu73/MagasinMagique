@@ -1,5 +1,9 @@
 package com.magasin;
 
+import java.lang.reflect.Constructor;
+import java.util.List;
+import java.util.Set;
+
 class Magasin {
     Item[] items;
 
@@ -58,5 +62,20 @@ class Magasin {
                 }
             }
         }
+    }
+
+    public ItemToUpdate findClass(Item item){
+
+        try {
+            Class result = Class.forName("com.magasin.items." + item.name);
+            System.out.println("Premier étape du try " + result);
+            return (ItemToUpdate) result.getConstructor(Item.class).newInstance(item);
+//            Object instance = itemTest.newInstance(item);
+//            System.out.println("Deuxième partie du try" + instance);
+        }
+        catch (Exception e){
+            System.out.println("ATTENTION " + e.getMessage());
+        }
+        return null;
     }
 }
