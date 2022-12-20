@@ -16,7 +16,7 @@ public class PouvoirMagiques extends Item implements ItemToUpdate {
         this.quality -= 2;
 
         if (sellIn < 0) {
-            this.quality++;
+            this.quality -= 2 ;
         }
         if (quality > 50) {
             this.quality = 50;

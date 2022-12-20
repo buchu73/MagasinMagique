@@ -21,9 +21,6 @@ public class Comte extends Item implements ItemToUpdate {
         if(quality > 50){
             this.quality =50;
         }
-        else if(quality < 0){
-            this.quality =0;
-        }
 
         return this;
 
