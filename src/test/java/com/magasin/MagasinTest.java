@@ -1,5 +1,6 @@
 package com.magasin;
 
+
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import java.util.Random;
@@ -48,6 +49,40 @@ class MagasinTest {
         assertEquals(quality-2, app.items[0].quality);
     }
 
+
+
+    @Test
+    void PassVIPQualityPlusTrois() {
+        int quality= 10;
+        int sellIn= 4;
+        Item[] items = new Item[]{new Item("Pass VIP Concert",sellIn,quality)};
+        Magasin app = new Magasin(items);
+
+        app.updateQuality();
+
+        assertEquals("Pass VIP Concert", app.items[0].name);
+        assertEquals(13 , app.items[0].quality,"quality");
+        assertEquals(3, app.items[0].sellIn,"sellIn");
+    }
+    @Test
+    void PassVIPQualityPlusDeux() {
+        int quality= 10;
+        int sellIn= 7;
+        Item[] items = new Item[]{new Item("Pass VIP Concert",sellIn,quality)};
+        Magasin app = new Magasin(items);
+
+        app.updateQuality();
+
+        assertEquals("Pass VIP Concert", app.items[0].name);
+        assertEquals(12 , app.items[0].quality,"quality");
+        assertEquals(6, app.items[0].sellIn,"sellIn");
+    }
+    @Test
+    void PassVIPQualityPlusUn() {
+        int quality= 10;
+        int sellIn= 11;
+        Item[] items = new Item[]{new Item("Pass VIP Concert",sellIn,quality)};
+
     // Tester l'impossibilité d'une qualitée > 50 -> Ne fonctionne pas
     @Test
     void otherProductQualityUnderFifteen() {
@@ -65,8 +100,31 @@ class MagasinTest {
     })
     void foo(String name, int sellIn, int quality) {
         Item[] items = new Item[] { new Item(name, sellIn, quality) };
+
         Magasin app = new Magasin(items);
+
         app.updateQuality();
+
+        assertEquals("Pass VIP Concert", app.items[0].name);
+        assertEquals(11 , app.items[0].quality,"quality");
+        assertEquals(10, app.items[0].sellIn,"sellIn");
+    }
+    @Test
+    void PassVIPQualitySellInZero() {
+        int quality= 50;
+        int sellIn= 0;
+        Item[] items = new Item[]{new Item("Pass VIP Concert",sellIn,quality)};
+        Magasin app = new Magasin(items);
+
+        app.updateQuality();
+
+        assertEquals("Pass VIP Concert", app.items[0].name);
+        assertEquals(0 , app.items[0].quality,"quality");
+        assertEquals(-1, app.items[0].sellIn,"sellIn");
+    }
+
+}
+
         assertEquals(sellIn-1, app.items[0].sellIn);
         assertEquals(quality+1, app.items[0].quality);
         assertEquals(name, app.items[0].name);
