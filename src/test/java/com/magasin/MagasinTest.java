@@ -14,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class MagasinTest {
     Random random = new Random();
 
-
     @ParameterizedTest
     @CsvSource({
             "Kryptonite, 80, 80", //To test if the quality and the sellIn are still the same
@@ -68,8 +67,6 @@ class MagasinTest {
         assertEquals(quality-2, app.items[0].quality);
     }
 
-
-
     @Test
     void PassVIPQualityPlusTrois() {
         int quality= 10;
@@ -98,24 +95,25 @@ class MagasinTest {
     }
     @Test
     void PassVIPQualityPlusUn() {
-        int quality= 10;
-        int sellIn= 11;
-        Item[] items = new Item[]{new Item("Pass VIP Concert",sellIn,quality)};
-         Magasin app = new Magasin(items);
+        int quality = 10;
+        int sellIn = 11;
+        Item[] items = new Item[]{new Item("Pass VIP Concert", sellIn, quality)};
+        Magasin app = new Magasin(items);
 
         app.updateQuality();
 
         assertEquals("Pass VIP Concert", app.items[0].name);
-        assertEquals(11 , app.items[0].quality,"quality");
-        assertEquals(10, app.items[0].sellIn,"sellIn");
+        assertEquals(11, app.items[0].quality, "quality");
+        assertEquals(10, app.items[0].sellIn, "sellIn");
+    }
 
     // Tester l'impossibilité d'une qualitée > 50 -> Ne fonctionne pas
     @Test
     void otherProductQualityUnderFifteen() {
         Item[] items = new Item[] { new Item("Boite", 4, 80) };
         Magasin app = new Magasin(items);
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, app::updateQuality);
-        assertEquals("La qualité ne peut pas être supérieure à 50", thrown.getMessage());
+        IllegalArgumentException error = assertThrows(IllegalArgumentException.class, app::updateQuality);
+      assertEquals("La qualité ne peut pas être supérieure à 50", error.getMessage());
     }
 
    @ParameterizedTest

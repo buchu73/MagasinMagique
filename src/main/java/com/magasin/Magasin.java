@@ -48,15 +48,19 @@ class Magasin {
                                 items[i].quality = items[i].quality - 1;
                             }
                         }
-                    } else {
+                    } else if (items[i].name.equals("Pass VIP Concert")) {
                         items[i].quality = items[i].quality - items[i].quality;
+                    } else if (items[i].name.equals("Comté")) {
+                        items[i].quality = items[i].quality + 2;
                     }
-                } else {
-                    if (items[i].quality < 50) {
-                        items[i].quality = items[i].quality + 1;
-                    }
+                }
+            }
+            if (!items[i].name.equals("Kryptonite")) {
+                if (items[i].quality > 50) {
+                    throw new IllegalArgumentException("La qualité ne peut pas être supérieure à 50");
                 }
             }
         }
     }
 }
+
