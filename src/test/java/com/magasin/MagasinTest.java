@@ -9,10 +9,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-
 class MagasinTest {
     Random random = new Random();
-
+  
     // Tester que dans un fonctionnement normal, la qualité pert 1 point par jour et le sellIn perd 1 point également
     @RepeatedTest(100)
     void otherProduct() {
@@ -57,4 +56,42 @@ class MagasinTest {
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, app::updateQuality);
         assertEquals("La qualité ne peut pas être supérieure à 50", thrown.getMessage());
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "Comté, 15,5",
+            "Comté, 4,4",
+            "Comté, -1,3",
+    })
+    void foo(String name, int sellIn, int quality) {
+        Item[] items = new Item[] { new Item(name, sellIn, quality) };
+        Magasin app = new Magasin(items);
+        app.updateQuality();
+        assertEquals(sellIn-1, app.items[0].sellIn);
+        assertEquals(quality+1, app.items[0].quality);
+        assertEquals(name, app.items[0].name);
+    }
+
+
+
+  @Test
+  void foobyzero() {
+    Item[] items = new Item[] { new Item("Comté", 0, 4) };
+    Magasin app = new Magasin(items);
+    app.updateQuality();
+    assertEquals(-1, app.items[0].sellIn);
+    assertEquals(5, app.items[0].quality);
+    assertEquals("Comté", app.items[0].name);
+}
+
+  @Test
+  void qualityEgaleQualityPlusUn() {
+    Item[] items = new Item[] { new Item("Comté", 4, 4) };
+    Magasin app = new Magasin(items);
+    app.updateQuality();
+    assertEquals(3, app.items[0].sellIn);
+    assertEquals(5, app.items[0].quality);
+    assertEquals("Comté", app.items[0].name);
+}
+
 }
