@@ -1,6 +1,7 @@
 package com.magasin;
 
 
+import java.util.Random;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import java.util.Random;
@@ -12,6 +13,24 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MagasinTest {
     Random random = new Random();
+
+
+    @ParameterizedTest
+    @CsvSource({
+            "Kryptonite, 80, 80", //To test if the quality and the sellIn are still the same
+            "Kryptonite, 30, 35", //To test if the quality must always be 80
+    })
+    void Kryptonite(String name, int sellIn, int quality) {
+
+
+        Item[] items = new Item[]{new Item(name, sellIn, quality)};
+       Magasin app = new Magasin(items);
+
+        app.updateQuality();
+       assertEquals(name, app.items[0].name);
+        assertEquals(sellIn, app.items[0].sellIn);
+        assertEquals(quality, app.items[0].quality);
+    }
   
     // Tester que dans un fonctionnement normal, la qualité pert 1 point par jour et le sellIn perd 1 point également
     @RepeatedTest(100)
@@ -82,6 +101,13 @@ class MagasinTest {
         int quality= 10;
         int sellIn= 11;
         Item[] items = new Item[]{new Item("Pass VIP Concert",sellIn,quality)};
+         Magasin app = new Magasin(items);
+
+        app.updateQuality();
+
+        assertEquals("Pass VIP Concert", app.items[0].name);
+        assertEquals(11 , app.items[0].quality,"quality");
+        assertEquals(10, app.items[0].sellIn,"sellIn");
 
     // Tester l'impossibilité d'une qualitée > 50 -> Ne fonctionne pas
     @Test
@@ -92,7 +118,7 @@ class MagasinTest {
         assertEquals("La qualité ne peut pas être supérieure à 50", thrown.getMessage());
     }
 
-    @ParameterizedTest
+   @ParameterizedTest
     @CsvSource({
             "Comté, 15,5",
             "Comté, 4,4",
@@ -100,37 +126,27 @@ class MagasinTest {
     })
     void foo(String name, int sellIn, int quality) {
         Item[] items = new Item[] { new Item(name, sellIn, quality) };
-
         Magasin app = new Magasin(items);
-
         app.updateQuality();
-
-        assertEquals("Pass VIP Concert", app.items[0].name);
-        assertEquals(11 , app.items[0].quality,"quality");
-        assertEquals(10, app.items[0].sellIn,"sellIn");
-    }
-    @Test
-    void PassVIPQualitySellInZero() {
-        int quality= 50;
-        int sellIn= 0;
-        Item[] items = new Item[]{new Item("Pass VIP Concert",sellIn,quality)};
-        Magasin app = new Magasin(items);
-
-        app.updateQuality();
-
-        assertEquals("Pass VIP Concert", app.items[0].name);
-        assertEquals(0 , app.items[0].quality,"quality");
-        assertEquals(-1, app.items[0].sellIn,"sellIn");
-    }
-
-}
-
         assertEquals(sellIn-1, app.items[0].sellIn);
         assertEquals(quality+1, app.items[0].quality);
         assertEquals(name, app.items[0].name);
     }
 
+    @Test
+    void PassVIPQualitySellInZero() {
+        int quality= 50;
+        int sellIn= 0;
+        Item[] items = new Item[]{new Item("Pass VIP Concert",sellIn,quality)};
 
+        Magasin app = new Magasin(items);
+
+        app.updateQuality();
+      
+        assertEquals("Pass VIP Concert", app.items[0].name);
+        assertEquals(0 , app.items[0].quality,"quality");
+        assertEquals(-1, app.items[0].sellIn,"sellIn");
+    }
 
   @Test
   void foobyzero() {
