@@ -1,1 +1,1 @@
-# MagasinMagique
+# MagasinMagiqueTests
